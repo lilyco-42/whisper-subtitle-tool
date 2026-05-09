@@ -1,0 +1,2 @@
+faster-whisper>=1.0.0
+maliang>=3.1.0

@@ -1,0 +1,39 @@
+# 音频文件 (大文件, 不提交)
+*.mp3
+*.wav
+*.m4a
+*.flac
+*.ogg
+*.wma
+*.aac
+*.opus
+*.ncm
+
+# 构建输出
+build/
+*.dist/
+*.build/
+*.onefile-build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# 环境
+.env
+.venv/
+venv/

@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install nuitka ordered-set zstandard
+          pip install maliang faster-whisper
+
+      - name: Build with Nuitka (standalone)
+        run: |
+          python -m nuitka --standalone --windows-console-mode=disable --enable-plugin=tk-inter --include-package=maliang --include-package=faster_whisper --include-package=ctranslate2 --include-package-data-dir=ctranslate2=ctranslate2 --assume-yes-for-downloads --output-dir=build gui_transcribe.py
+
+      - name: Package to zip
+        run: |
+          Compress-Archive -Path build/gui_transcribe.dist/* -DestinationPath whisper-subtitle-tool.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body: |
+            ## 音频转字幕工具 ${{ github.ref_name }}
+
+            基于 faster-whisper + maliang 的桌面端音频转字幕工具。
+
+            ### 使用说明
+            1. 下载 `whisper-subtitle-tool.zip` 并解压
+            2. 将音频文件 (mp3/wav/flac 等) 放入解压后的文件夹
+            3. 双击 `gui_transcribe.exe` 启动
+            4. 首次运行需下载 Whisper 模型 (~1-4GB)，缓存至 `%USERPROFILE%/.cache/huggingface`
+
+            ### 功能
+            - 支持 8 种音频格式 (mp3, wav, m4a, flac, ogg, wma, aac, opus)
+            - 10 种 Whisper 模型可选 (tiny ~ large-v3)
+            - CPU / CUDA 可选
+            - 实时进度显示
+            - 输出标准 SRT 字幕文件
+
+            ### 运行环境
+            - Windows 10/11 64-bit
+            - 无需安装 Python
+          files: whisper-subtitle-tool.zip
+          generate_release_notes: true
