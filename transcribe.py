@@ -1,7 +1,10 @@
 from faster_whisper import WhisperModel
 
 def seconds_to_srt_time(seconds):
-    ms = int((seconds % 1) * 1000)
+    ms = round((seconds % 1) * 1000)
+    if ms >= 1000:
+        ms = 0
+        seconds += 1
     s = int(seconds)
     m, s = divmod(s, 60)
     h, m = divmod(m, 60)
