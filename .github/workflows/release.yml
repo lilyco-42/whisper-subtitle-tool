@@ -24,7 +24,7 @@ jobs:
 
       - name: Build with Nuitka (standalone)
         run: |
-          python -m nuitka --standalone --windows-console-mode=disable --enable-plugin=tk-inter --include-package=maliang --include-package=faster_whisper --include-package=ctranslate2 --include-package-data-dir=ctranslate2=ctranslate2 --assume-yes-for-downloads --output-dir=build gui_transcribe.py
+          python -m nuitka --standalone --windows-console-mode=disable --enable-plugin=tk-inter --include-package=maliang --include-package=faster_whisper --include-package=ctranslate2 --assume-yes-for-downloads --output-dir=build gui_transcribe.py
 
       - name: Package to zip
         run: |

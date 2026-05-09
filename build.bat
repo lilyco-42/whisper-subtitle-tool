@@ -25,7 +25,7 @@ python -m nuitka ^
     --include-package=maliang ^
     --include-package=faster_whisper ^
     --include-package=ctranslate2 ^
-    --include-package-data-dir=ctranslate2=ctranslate2 ^
+    --noinclude-data-files="*.py" ^
     --assume-yes-for-downloads ^
     --output-dir=build ^
     gui_transcribe.py
